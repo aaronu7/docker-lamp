@@ -5,7 +5,8 @@ This is a LAMP start point using docker which demonstrates a simple multi-servic
 2.) Clone repo
 3.) Command prompt to the repo directory
 
-3a.) To build the project:  docker-compose up --build -d
+# 3a.) To build the project:
+```sh docker-compose up --build -d ```
 3b.) To view the project open browser to http://localhost/ on host machine
 3c.) To unload the project: docker-compose down -v
 
