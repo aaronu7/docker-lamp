@@ -1,0 +1,48 @@
+version: '3'
+
+networks:
+  webnet:
+
+services:
+
+  web:
+    image: php:7.1  # not need for compose, but still needed for stack deploy
+    depends_on:
+      - db
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - 80:80
+    networks:
+      - webnet
+    deploy:             # use `docker stack deploy` to deploy to a swarm.
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: mysql:5.7 # not need for compose, but still needed for stack deploy
+    volumes:
+      #- ./db:/var/lib/mysql  # this line will persist the data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql #this line initializes the data on its initial build
+    environment:
+      MYSQL_ROOT_PASSWORD: river7
+      #MYSQL_DATABASE: testdb
+      #MYSQL_USER: docky
+      #MYSQL_PASSWORD: docky
+    ports:
+      - 3306:3306
+    networks:
+      - webnet
+    deploy:             # use `docker stack deploy` to deploy to a swarm.
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
