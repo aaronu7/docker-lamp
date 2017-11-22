@@ -2,7 +2,7 @@
 docker-compose-swarm.yml
 
 # ignore the temp folder
-[Tt]emp/
+temp/
 
 # ignore the db persistence folder
-[Dd]b/
+db/
