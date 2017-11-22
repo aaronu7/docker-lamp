@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  webnet:
+
+services:
+
+  web:
+    #image: php:7.1  # not needed for compose, but still needed for stack deploy
+    build:
+      context: .
+      dockerfile: DockerfileWeb
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - 80:80
+    networks:
+      - webnet
+
+  db:
+    #image: mysql:5.7 # not needed for compose, but still needed for stack deploy
+    build:
+      context: .
+      dockerfile: DockerfileDb
+    volumes:
+      #- ./db:/var/lib/mysql  # this line will persist the data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql #this line initializes the data on its initial build
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: river7
+      #MYSQL_DATABASE: testdb
+      #MYSQL_USER: docky
+      #MYSQL_PASSWORD: docky
+    ports:
+      - 3306:3306
+    networks:
+      - webnet

@@ -1,0 +1,8 @@
+# ignore the test swarm file
+docker-compose-swarm.yml
+
+# ignore the temp folder
+[Tt]emp/
+
+# ignore the db persistence folder
+[Dd]b/
